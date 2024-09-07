@@ -1,0 +1,46 @@
+#cartIcons a {
+    color: black;
+    text-decoration: none;
+}
+
+#counterLink {
+    position: relative;
+}
+
+#favCounterLink {
+    position: relative;
+}
+
+#product_count {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    top: -20px;
+    right: -15px;
+}
+
+#fav_count {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: #07897ca6;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    top: -20px;
+    right: -15px;
+}

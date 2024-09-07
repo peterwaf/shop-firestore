@@ -1,0 +1,12 @@
+#userNav{
+    list-style: none;
+    margin: 0;
+   
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#userNav li{
+    margin: 0 5px;
+}
