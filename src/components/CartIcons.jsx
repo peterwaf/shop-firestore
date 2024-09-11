@@ -6,14 +6,25 @@ import '../styles/carticons.css'
 import { useState, useEffect } from "react";
 function CartIcons(props) {
   const [cartItemsCount, setCartItemsCount] = useState(0);
+  const[favsCount, setFavsCount] = useState(0);
   /* count cart items */
   const countCartItems = () => {
       setCartItemsCount(props.cartItems.length);
   }
 
+    /* count fav items */
+
+  const countFavs = () => {
+      setFavsCount(props.favs.length);
+  }
+
   useEffect(() => {
       countCartItems();
   }, [props.cartItems])
+
+  useEffect(() => {
+      countFavs();
+  }, [props.favs])
 
   return (
     <div className="col-md-4 d-flex justify-content-center">
@@ -21,7 +32,7 @@ function CartIcons(props) {
             <div className="col"><IoSearch /></div>
             <div className="col">
               <a id="favCounterLink" href="#"> <FaRegHeart />
-              <span id="fav_count">0</span></a>
+              <span id="fav_count">{favsCount}</span></a>
               
             </div>
             <div className="col">

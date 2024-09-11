@@ -10,12 +10,16 @@ function Home(props) {
             <BrandLogos />
             <BestSellerText />
             <BestSellerProducts
-            alreadyInCart={props.alreadyInCart}
-            addToCart={props.addToCart}
-            getBestSellersAll={props.getBestSellersAll}
-            bestSellers={props.bestSellers}
-            getBestSellers={props.getBestSellers}
-            categories={props.productCategories} />
+                favs={props.favs}
+                addToFavs={props.addToFavs}
+                alreadyInFavs={props.alreadyInFavs}
+                removeFromFavs={props.removeFromFavs}
+                alreadyInCart={props.alreadyInCart}
+                addToCart={props.addToCart}
+                getBestSellersAll={props.getBestSellersAll}
+                bestSellers={props.bestSellers}
+                getBestSellers={props.getBestSellers}
+                categories={props.productCategories} />
 
         </>
     )

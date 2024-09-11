@@ -30,7 +30,7 @@ function Nav(props) {
         <div className="col-md-4 d-flex justify-content-center">
           <img src="/images/logo.svg" />
         </div>
-          <CartIcons cartItems={props.cartItems} />
+          <CartIcons favs={props.favs} cartItems={props.cartItems} />
           <Cart deleteFromCart={props.deleteFromCart} cartItems={props.cartItems} updateQty={props.updateQty} />
       </div>
   )

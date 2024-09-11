@@ -24,6 +24,7 @@ function App() {
   const [allProducts, setAllProducts] = useState([]);
   const [cartItems, setCartItems] = useState(localStorage.getItem("cartItems") ? JSON.parse(localStorage.getItem("cartItems")) : []);
   const [productsQuantity, setProductsQuantity] = useState(0);
+  const [favs, setFavs] = useState(localStorage.getItem("favs") ? JSON.parse(localStorage.getItem("favs")) : []);
 
   /** Get Products **/
   const getProducts = async () => {
@@ -41,7 +42,7 @@ function App() {
     getProducts();
   }, []);
 
-  /** Get Products by category **/
+  /** Get category **/
 
   const getProductsbyCategory = async (dbCategory) => {
     try {
@@ -64,7 +65,19 @@ function App() {
     setCartItems(prevItems => [...prevItems, currentProduct]);
   }
 
-  /*update cart quantity*/
+  /**add to favs **/
+
+  const addToFavs = (product) => {
+    const currentProduct = product;
+    setFavs(prevItems => [...prevItems, currentProduct]);
+  }
+
+  /**removeFromFavs **/
+  const removeFromFavs = (product) => {
+    setFavs(prevItems => prevItems.filter(item => item.id !== product.id));
+  }
+
+  /** update qty **/
 
   const updateQty = (product, qty) => {
     const updatedCartItems = cartItems.map(item => {
@@ -104,7 +117,7 @@ function App() {
     }
   }
 
-  /** Get Best sellers products by category **/
+  /** Get Best sellers**/
 
   const getBestSellers = async (bestSellCategory) => {
     try {
@@ -178,18 +191,41 @@ function App() {
     }
   }
 
-  /***listen to changes in cart and save cartItems to local storage */
+  /*check if product is already in favs */
+
+  const alreadyInFavs = (product) => {
+    /*check if product is already in favs */
+    const productInFavs = favs.find(item => item.id === product.id);
+    if (productInFavs) {
+      return true
+    }
+    else {
+      return false
+    }
+  }
+
+  /* listen to changes in cart and save cartItems to local storage */
 
   useEffect(() => {
     localStorage.setItem("cartItems", JSON.stringify(cartItems))
   }, [cartItems])
+
+
+  /* listen to changes in favs and save favs to local storage */
+
+  useEffect(() => {
+    localStorage.setItem("favs", JSON.stringify(favs))
+  }, [favs])
+
+
+  /*delete from cart */
 
   const deleteFromCart = (product) => {
     const updatedCartItems = cartItems.filter(item => item.id !== product.id);
     setCartItems(updatedCartItems);
   }
 
-  console.log(cartItems);
+  console.log(favs);
 
 
   return (
@@ -200,6 +236,10 @@ function App() {
           loggedInUserID={loggedInUserID}
           userDatainDB={userDatainDB} />}
         <Nav
+          favs={favs}
+          addToFavs={addToFavs}
+          alreadyInFavs={alreadyInFavs}
+          removeFromFavs={removeFromFavs}
           deleteFromCart={deleteFromCart}
           getProducts={getProducts}
           cartItems={cartItems}
@@ -207,6 +247,10 @@ function App() {
         <Routes>
           <Route path="/"
             element={<Home getBestSellersAll={getBestSellersAll}
+              favs={favs}
+              addToFavs={addToFavs}
+              alreadyInFavs={alreadyInFavs}
+              removeFromFavs={removeFromFavs}
               alreadyInCart={alreadyInCart}
               addToCart={addToCart}
               bestSellers={bestSellers}
@@ -215,6 +259,10 @@ function App() {
               productCategories={productCategories} />} />
           <Route path="/:category"
             element={<Home getBestSellersAll={getBestSellersAll}
+              favs={favs}
+              addToFavs={addToFavs}
+              alreadyInFavs={alreadyInFavs}
+              removeFromFavs={removeFromFavs}
               alreadyInCart={alreadyInCart}
               addToCart={addToCart}
               bestSellers={bestSellers}
@@ -230,6 +278,10 @@ function App() {
             element={<AddProduct />} />
           <Route path="/products"
             element={<Products
+              favs={favs}
+              addToFavs={addToFavs}
+              alreadyInFavs={alreadyInFavs}
+              removeFromFavs={removeFromFavs}
               alreadyInCart={alreadyInCart}
               getProductsbyCategory={getProductsbyCategory}
               addToCart={addToCart}
@@ -237,6 +289,10 @@ function App() {
               allProducts={allProducts} />} />
           <Route path="/products/:category"
             element={<Products
+              favs={favs}
+              addToFavs={addToFavs}
+              alreadyInFavs={alreadyInFavs}
+              removeFromFavs={removeFromFavs}
               alreadyInCart={alreadyInCart}
               getProductsbyCategory={getProductsbyCategory}
               addToCart={addToCart}

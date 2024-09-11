@@ -36,7 +36,7 @@ function Products(props) {
                                         <FaCartPlus />
                                     </a>
 
-                                    <a href="#" className="p-2 m-1">
+                                    <a href="#" onClick={() =>{ props.alreadyInFavs(product) ? document.getElementById(product.id).textContent = "In wishlist" : props.addToFavs(product)}} className="p-2 m-1">
                                         <FaRegHeart />
                                     </a>
                                     
