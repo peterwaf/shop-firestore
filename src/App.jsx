@@ -13,6 +13,8 @@ import { onAuthStateChanged } from "firebase/auth";
 import { db } from "./firebase/config";
 import { collection, getDocs } from "firebase/firestore";
 import Products from "./pages/Products";
+import Wishlist from "./pages/Wishlist";
+
 function App() {
   const [userDatainDB, setUserDataInDB] = useState([]);
   const [loggedInUserID, setLoggedInUserID] = useState("");
@@ -257,6 +259,11 @@ function App() {
               getBestSellers={getBestSellers}
               getProductsbyCategory={getProductsbyCategory}
               productCategories={productCategories} />} />
+          <Route path="/wishlist" element={<Wishlist
+            favs={favs}
+            removeFromFavs={removeFromFavs}
+            alreadyInFavs={alreadyInFavs}
+          />} />
           <Route path="/:category"
             element={<Home getBestSellersAll={getBestSellersAll}
               favs={favs}

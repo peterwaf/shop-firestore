@@ -4,6 +4,7 @@ import { IoSearch } from "react-icons/io5";
 import { FaCartPlus } from "react-icons/fa";
 import '../styles/carticons.css'
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 function CartIcons(props) {
   const [cartItemsCount, setCartItemsCount] = useState(0);
   const[favsCount, setFavsCount] = useState(0);
@@ -31,8 +32,8 @@ function CartIcons(props) {
           <div className="row navbar top_icons" id="cartIcons">
             <div className="col"><IoSearch /></div>
             <div className="col">
-              <a id="favCounterLink" href="#"> <FaRegHeart />
-              <span id="fav_count">{favsCount}</span></a>
+              <Link id="favCounterLink" to="/wishlist"> <FaRegHeart />
+              <span id="fav_count">{favsCount}</span></Link>
               
             </div>
             <div className="col">
