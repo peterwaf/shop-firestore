@@ -14,18 +14,17 @@ import { db } from "./firebase/config";
 import { collection, getDocs } from "firebase/firestore";
 import Products from "./pages/Products";
 import Wishlist from "./pages/Wishlist";
+import CheckOut from "./pages/CheckOut";
 
 function App() {
   const [userDatainDB, setUserDataInDB] = useState([]);
   const [loggedInUserID, setLoggedInUserID] = useState("");
   const [isLoggedin, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
-  const [isAdmin, setIsAdmin] = useState(false);
   const [productCategories, setProductCategories] = useState([]);
   const [bestSellers, setBestSellers] = useState([]);
   const [allProducts, setAllProducts] = useState([]);
   const [cartItems, setCartItems] = useState(localStorage.getItem("cartItems") ? JSON.parse(localStorage.getItem("cartItems")) : []);
-  const [productsQuantity, setProductsQuantity] = useState(0);
   const [favs, setFavs] = useState(localStorage.getItem("favs") ? JSON.parse(localStorage.getItem("favs")) : []);
 
   /** Get Products **/
@@ -156,7 +155,7 @@ function App() {
     })
   }, [])
 
-  /** Get user data from database **/
+
 
   useEffect(() => {
     const getUserInfo = async () => {
@@ -209,14 +208,21 @@ function App() {
   /* listen to changes in cart and save cartItems to local storage */
 
   useEffect(() => {
-    localStorage.setItem("cartItems", JSON.stringify(cartItems))
+    //check if user is not logged in,save cartItems to local storage
+    if (!isLoggedin) {
+      localStorage.setItem("cartItems", JSON.stringify(cartItems))
+    }
+
   }, [cartItems])
 
 
   /* listen to changes in favs and save favs to local storage */
 
   useEffect(() => {
-    localStorage.setItem("favs", JSON.stringify(favs))
+    //check if user is not logged in,save favs to local storage
+    if (!isLoggedin) {
+      localStorage.setItem("favs", JSON.stringify(favs))
+    }
   }, [favs])
 
 
@@ -227,29 +233,34 @@ function App() {
     setCartItems(updatedCartItems);
   }
 
-  console.log(favs);
-
-
+  const resetLoggedIn = () => {
+    setIsLoggedIn(false);
+  }
+ 
   return (
     <div className="container-fluid">
       <BrowserRouter>
         {isLoggedin && < UserNav
           currentUser={currentUser}
           loggedInUserID={loggedInUserID}
-          userDatainDB={userDatainDB} />}
+          userDatainDB={userDatainDB}
+          resetLoggedIn={resetLoggedIn} />}
         <Nav
           favs={favs}
+          isLoggedIn={isLoggedin}
           addToFavs={addToFavs}
           alreadyInFavs={alreadyInFavs}
           removeFromFavs={removeFromFavs}
           deleteFromCart={deleteFromCart}
           getProducts={getProducts}
           cartItems={cartItems}
-          updateQty={updateQty} />
+          updateQty={updateQty}
+          resetLoggedIn={resetLoggedIn} />
         <Routes>
           <Route path="/"
             element={<Home getBestSellersAll={getBestSellersAll}
               favs={favs}
+              cartItems={cartItems}
               addToFavs={addToFavs}
               alreadyInFavs={alreadyInFavs}
               removeFromFavs={removeFromFavs}
@@ -258,7 +269,8 @@ function App() {
               bestSellers={bestSellers}
               getBestSellers={getBestSellers}
               getProductsbyCategory={getProductsbyCategory}
-              productCategories={productCategories} />} />
+              productCategories={productCategories}
+              isLoggedIn={isLoggedin} />} />
           <Route path="/wishlist" element={<Wishlist
             favs={favs}
             removeFromFavs={removeFromFavs}
@@ -267,6 +279,7 @@ function App() {
           <Route path="/:category"
             element={<Home getBestSellersAll={getBestSellersAll}
               favs={favs}
+              isLoggedIn={isLoggedin}
               addToFavs={addToFavs}
               alreadyInFavs={alreadyInFavs}
               removeFromFavs={removeFromFavs}
@@ -305,6 +318,13 @@ function App() {
               addToCart={addToCart}
               categories={productCategories}
               allProducts={allProducts} />} />
+          <Route path="/checkout"
+            element={<CheckOut
+              loggedInUserID={loggedInUserID}
+              cartItems={cartItems}
+              favs={favs}
+              />} />
+
         </Routes>
         <Footer />
       </BrowserRouter>

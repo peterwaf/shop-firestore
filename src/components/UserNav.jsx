@@ -6,9 +6,10 @@ import { Link } from "react-router-dom"
 function UserNav(props) {
     const logOut = async () => {
         try {
-            await signOut(auth)
+            await signOut(auth);
+            props.resetLoggedIn();
         } catch (error) {
-            cconsole.log(error.message)
+            console.log(error.message)
         }
     }
     return (

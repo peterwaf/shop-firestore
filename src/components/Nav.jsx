@@ -31,7 +31,7 @@ function Nav(props) {
           <img src="/images/logo.svg" />
         </div>
           <CartIcons favs={props.favs} cartItems={props.cartItems} />
-          <Cart deleteFromCart={props.deleteFromCart} cartItems={props.cartItems} updateQty={props.updateQty} />
+          <Cart isLoggedIn={props.isLoggedIn} deleteFromCart={props.deleteFromCart} cartItems={props.cartItems} updateQty={props.updateQty} />
       </div>
   )
 }

@@ -3,9 +3,11 @@ import '../styles/cart.css'
 import { MdDelete } from "react-icons/md";
 import { useState } from "react";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Cart(props) {
     const [total, setTotal] = useState(0);
+    const navigate = useNavigate();
     const loadTotal = () => {
         let tot = 0;
         props.cartItems.map(cartItem => {
@@ -17,6 +19,10 @@ function Cart(props) {
     useEffect(() => {
         loadTotal();
     }, [props.cartItems])
+
+    const checkout = () => {
+        navigate(`/checkout`);
+    }
     
     return (
         <div className="offcanvas offcanvas-end" tabIndex="-1" id="cartContents" aria-labelledby="cartContentsLabel">
@@ -36,7 +42,7 @@ function Cart(props) {
                             </div>
                             <div>How many? : <input className="qty" type="number" value={cartItem.qty} onChange={(event) => {
                                 let prodCount = parseInt(event.target.value);
-                                if (prodCount<1) {
+                                if (prodCount<1 || isNaN(prodCount)) {
                                     event.target.value = 1;
                                 }
                                 props.updateQty(cartItem,parseInt(event.target.value))
@@ -48,7 +54,7 @@ function Cart(props) {
                     })}
                     <p>Total : Ksh {total}</p>
                 </ul>
-                {props.cartItems.length > 0 ? <button className="btn btn-dark">Checkout</button> : ""}
+                {(props.cartItems.length > 0 && !props.isLoggedIn) ?<p>Please <a href="/log-in"> login</a> to place order or checkout</p>: <button onClick={checkout} className="btn btn-dark">Checkout</button>}
             </div>
         </div>
     )

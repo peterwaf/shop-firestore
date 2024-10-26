@@ -30,7 +30,7 @@ function CartIcons(props) {
   return (
     <div className="col-md-4 d-flex justify-content-center">
           <div className="row navbar top_icons" id="cartIcons">
-            <div className="col"><IoSearch /></div>
+            {/* <div className="col"><IoSearch /></div> */}
             <div className="col">
               <Link id="favCounterLink" to="/wishlist"> <FaRegHeart />
               <span id="fav_count">{favsCount}</span></Link>

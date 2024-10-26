@@ -1,8 +1,9 @@
-import React from 'react'
-import SliderHome from "../components/SliderHome"
-import BrandLogos from "../components/BrandLogos"
-import BestSellerText from "../components/BestSellerText"
-import BestSellerProducts from "../components/BestSellerProducts"
+import React from 'react';
+import SliderHome from "../components/SliderHome";
+import BrandLogos from "../components/BrandLogos";
+import BestSellerText from "../components/BestSellerText";
+import BestSellerProducts from "../components/BestSellerProducts";
+import { useState, useEffect } from "react";
 function Home(props) {
     return (
         <>
