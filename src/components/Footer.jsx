@@ -8,7 +8,7 @@ function Footer() {
                     <a href="/" className="d-flex align-items-center mb-3 link-dark text-decoration-none">
                         <img src="/images/logo.svg" className="img-fluid" alt="" />
                     </a>
-                    <p className="text-muted">© 2024</p>
+                    <p className="text-muted">© {new Date().getFullYear()}</p>
                 </div>
 
                 <div className="col">

@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 import { useContext } from "react";
 import { ShopContext } from "../contexts/shopContex";
 function CheckOut() {
-    const checkOutContext = useContext(ShopContext);
+    const checkOutContext = useContext(ShopContext);    
     const [total, setTotal] = useState(0);
     const navigate = useNavigate();
     const loadTotal = () => {
@@ -30,7 +30,7 @@ function CheckOut() {
     const placeOrder = async () => {
         //get cartItems and favItems from localStorage
         const cartItems = checkOutContext.cartItems;
-        const favItems = checkOutContext.favs;
+        const wishList = checkOutContext.favs;
         const userId = checkOutContext.loggedInUserID;
         /*validate payments then add favs and cartItems to
         database*/
@@ -44,20 +44,18 @@ function CheckOut() {
                     total: total,
                     status: "pending"
                 });
-                //add favs to database if not empty using userId as docId
-                if (favItems) {
+                //add wishlists in favs to database if not empty using userId as docId
+                if (wishList) {
                     await setDoc(doc(db, "favorites", userId), {
-                        favs: favItems
+                        wishList: wishList
                     })
                 }
-                
-                // clear local storage and favs 
-                localStorage.removeItem("cartItems");
-                localStorage.removeItem("favs");
-              
-                //navigate to success page
+                //navigate to success page or alert
                 alert("Order placed successfully");
-                window.location.reload();
+                //reset cart and wishlist
+                checkOutContext.resetCart();
+                checkOutContext.resetWishlist();
+         
             } catch (error) {
                 console.log(error.message);
             }
@@ -90,14 +88,17 @@ function CheckOut() {
                             </tr>
                         })}
                         <tr>
+                        <td></td>
                             <td></td>
                             <td>Total</td>
                             <td>{total}</td>
                         </tr>
                         <tr>
+                        <td></td>
                             <td></td>
+                            <td>{checkOutContext.cartItems.length > 0 ? <button onClick={placeOrder} className="btn btn-success">Place Order</button> : "No items in cart"}</td>
                             <td></td>
-                            <td><button onClick={placeOrder} className="btn btn-success">Place Order</button></td>
+                            
                         </tr>
                     </tbody>
                 </table>

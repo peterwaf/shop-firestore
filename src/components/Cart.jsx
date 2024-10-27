@@ -4,13 +4,16 @@ import { MdDelete } from "react-icons/md";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { ShopContext } from "../contexts/shopContex";
+import { useContext } from "react";
 
-function Cart(props) {
+function Cart() {
+    const cartContext = useContext(ShopContext);
     const [total, setTotal] = useState(0);
     const navigate = useNavigate();
     const loadTotal = () => {
         let tot = 0;
-        props.cartItems.map(cartItem => {
+        cartContext.cartItems.map(cartItem => {
             tot += cartItem.productPrice * cartItem.qty;
         })
         setTotal(tot);
@@ -18,11 +21,12 @@ function Cart(props) {
 
     useEffect(() => {
         loadTotal();
-    }, [props.cartItems])
+    }, [cartContext.cartItems])
 
     const checkout = () => {
         navigate(`/checkout`);
     }
+
     
     return (
         <div className="offcanvas offcanvas-end" tabIndex="-1" id="cartContents" aria-labelledby="cartContentsLabel">
@@ -31,9 +35,9 @@ function Cart(props) {
                 <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div className="offcanvas-body">
-                {props.cartItems.length === 0 ? <p>Your cart is empty</p> : ""}
+                {cartContext.cartItems.length === 0 ? <p>Your cart is empty</p> : ""}
                 <ul>
-                    {props.cartItems.map(cartItem => {
+                    {cartContext.cartItems.map(cartItem => {
                         return <li className="cart-item" key={cartItem.id}>
                             <div><img src={cartItem.productImage} /></div>
                             <div>
@@ -45,16 +49,18 @@ function Cart(props) {
                                 if (prodCount<1 || isNaN(prodCount)) {
                                     event.target.value = 1;
                                 }
-                                props.updateQty(cartItem,parseInt(event.target.value))
+                                cartContext.updateQty(cartItem,parseInt(event.target.value))
                                 
                             }} /></div>
                             <div> Amount : Ksh {cartItem.qty * cartItem.productPrice}</div>
-                            <div><MdDelete onClick={() => props.deleteFromCart(cartItem)} className="delete-icon" /></div>
+                            <div><MdDelete onClick={() => cartContext.deleteFromCart(cartItem)} className="delete-icon" /></div>
                         </li>
                     })}
-                    <p>Total : Ksh {total}</p>
+                    <p className="font-weight-bold">Total : Ksh {total}</p>
                 </ul>
-                {(props.cartItems.length > 0 && !props.isLoggedIn) ?<p>Please <a href="/log-in"> login</a> to place order or checkout</p>: <button onClick={checkout} className="btn btn-dark">Checkout</button>}
+                {/* if cart is not empty and user is not logged in*/ }
+                {cartContext.cartItems.length > 0 && !cartContext.isLoggedin &&<p>Please <a href="/log-in"> login</a> to place order or checkout</p>}
+                {cartContext.cartItems.length > 0 && cartContext.isLoggedin && <button className="btn btn-dark" onClick={checkout}>Checkout</button>}
             </div>
         </div>
     )

@@ -4,10 +4,13 @@ import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react";
 import { FaRegHeart } from "react-icons/fa6";
 import { FaCartPlus } from "react-icons/fa";
-function BestSellerProducts(props) {
+import { useContext } from "react";
+import { ShopContext } from "../contexts/shopContex";
+function BestSellerProducts() {
     const { category } = useParams();
+    const bestSellerContext = useContext(ShopContext);
     useEffect(() => {
-        props.getBestSellersAll();
+        bestSellerContext.getBestSellersAll();
     }, [])
 
     return (
@@ -16,9 +19,9 @@ function BestSellerProducts(props) {
                 <div className="col-md-9">
                     <div className="row">
                         <div className="text-center bestsellerproducts">
-                            <Link className="px-2" onClick={() => props.getBestSellersAll()} to={`/`}>All</Link>
-                            {props.categories.map(category => {
-                                return <Link onClick={() => props.getBestSellers(category)} key={category} to={`/${category}`} className="px-2">{category}</Link>
+                            <Link className="px-2" onClick={() => bestSellerContext.getBestSellersAll()} to={`/`}>All</Link>
+                            {bestSellerContext.productCategories.map(category => {
+                                return <Link onClick={() => bestSellerContext.getBestSellersByCategory(category)} key={category} to={`/${category}`} className="px-2">{category}</Link>
                             })}
                         </div>
                     </div>
@@ -26,18 +29,18 @@ function BestSellerProducts(props) {
             </div>
 
             <div className="row d-flex justify-content-center bestseller-products-list row_custom_gap">
-                {props.bestSellers.map(product => {
+                {bestSellerContext.bestSellers.map(product => {
                     return <div className="col d-flex justify-content-center" key={product.id}>
                         <div className="card rounded-0 mb-5" >
                             <img src={product.productImage} className="card-img-top rounded-0" alt="..." />
                             <div className="cart-icons">
                                 <a onClick={() => {
-                                    props.alreadyInCart(product) ? document.getElementById(product.id).textContent = "In cart" : props.addToCart(product);
+                                    bestSellerContext.alreadyInCart(product) ? document.getElementById(product.id).textContent = "In cart" : bestSellerContext.addToCart(product);
                                 }
                                 } className="p-2 m-1">
                                     <FaCartPlus />
                                 </a>
-                                <a href="#" onClick={() =>{ props.alreadyInFavs(product) ? document.getElementById(product.id).textContent = "In wishlist" : props.addToFavs(product)}} className="p-2 m-1">
+                                <a href="#" onClick={() =>{ bestSellerContext.alreadyInFavs(product) ? document.getElementById(product.id).textContent = "In wishlist" : bestSellerContext.addToFavs(product)}} className="p-2 m-1">
                                     <FaRegHeart />
                                 </a>
                             </div>

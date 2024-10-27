@@ -121,7 +121,7 @@ function App() {
 
   /** Get Best sellers**/
 
-  const getBestSellers = async (bestSellCategory) => {
+  const getBestSellersByCategory = async (bestSellCategory) => {
     try {
       const productsRef = collection(db, "products");
       const productsSnap = await getDocs(productsRef);
@@ -139,23 +139,6 @@ function App() {
   useEffect(() => {
     getCategories();
   }, [])
-
-  /** Track logged in user **/
-
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        const userId = user.uid;
-        setLoggedInUserID(userId);
-        setIsLoggedIn(user);
-        setCurrentUser(user);
-      }
-      else {
-        setIsLoggedIn(false);
-      }
-    })
-  }, [])
-
 
 
   useEffect(() => {
@@ -234,35 +217,52 @@ function App() {
     setCartItems(updatedCartItems);
   }
 
+   /** Track logged in user **/
+
+   useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const userId = user.uid;
+        setLoggedInUserID(userId);
+        setIsLoggedIn(Boolean(user));
+        setCurrentUser(user);
+      }
+      else {
+        setIsLoggedIn(false);
+      }
+    })
+  }, [])
+
   const resetLoggedIn = () => {
     setIsLoggedIn(false);
   }
-
+  const resetCart = () => {
+    localStorage.clear();
+    setCartItems([]);
+   
+  }
+  const resetWishlist = () => {
+    localStorage.clear();
+    setFavs([]);
+  }
+  
+  
   return (
     <div className="container-fluid">
       <BrowserRouter>
         <ShopContext.Provider value={{
           isLoggedin,
           loggedInUserID,
-          setLoggedInUserID,
-          setIsLoggedIn,
           currentUser,
-          setCurrentUser,
           userDatainDB,
-          setUserDataInDB,
           productCategories,
-          setProductCategories,
           bestSellers,
-          setBestSellers,
           allProducts,
-          setAllProducts,
           cartItems,
-          setCartItems,
           favs,
-          setFavs,
           getProducts,
           getProductsbyCategory,
-          getBestSellers,
+          getBestSellersByCategory,
           getBestSellersAll,
           alreadyInCart,
           addToCart,
@@ -272,8 +272,11 @@ function App() {
           updateQty,
           addToFavs,
           resetLoggedIn,
-          getCategories
+          getCategories,
+          resetCart,
+          resetWishlist
         }}>
+          {isLoggedin && <UserNav />}
           <Nav />
           <Routes>
             <Route path="/" element={<Home />} />
