@@ -1,8 +1,11 @@
-import React from 'react'
-import { Link } from "react-router-dom"
-import CartIcons from "./CartIcons"
-import Cart from "./Cart"
-function Nav(props) {
+import React from 'react';
+import { Link } from "react-router-dom";
+import CartIcons from "./CartIcons";
+import Cart from "./Cart";
+import { ShopContext } from "../contexts/shopContex";
+import { useContext } from "react";
+function Nav() {
+  const navContext = useContext(ShopContext);
   return (
     <div className="row">
         <div className="col-md-4 d-flex justify-content-center">
@@ -20,7 +23,7 @@ function Nav(props) {
                     <Link className="nav-link" to="/">Home</Link>
                   </li>
                   <li className="nav-item">
-                    <Link onClick={props.getProducts} className='nav-link' to='/products'>Products</Link>
+                    <Link onClick={navContext.getProducts} className='nav-link' to='/products'>Products</Link>
                   </li>
                 </ul>
               </div>
@@ -30,8 +33,8 @@ function Nav(props) {
         <div className="col-md-4 d-flex justify-content-center">
           <img src="/images/logo.svg" />
         </div>
-          <CartIcons favs={props.favs} cartItems={props.cartItems} />
-          <Cart isLoggedIn={props.isLoggedIn} deleteFromCart={props.deleteFromCart} cartItems={props.cartItems} updateQty={props.updateQty} />
+          <CartIcons favs={navContext.favs} cartItems={navContext.cartItems} />
+          <Cart isLoggedIn={navContext.isLoggedIn} deleteFromCart={navContext.deleteFromCart} cartItems={navContext.cartItems} updateQty={navContext.updateQty} />
       </div>
   )
 }

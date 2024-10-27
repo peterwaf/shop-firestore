@@ -4,12 +4,15 @@ import { db } from "../firebase/config";
 import { collection, addDoc,doc,setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-function CheckOut(props) {
+import { useContext } from "react";
+import { ShopContext } from "../contexts/shopContex";
+function CheckOut() {
+    const checkOutContext = useContext(ShopContext);
     const [total, setTotal] = useState(0);
     const navigate = useNavigate();
     const loadTotal = () => {
         let tot = 0;
-        props.cartItems.map(cartItem => {
+        checkOutContext.cartItems.map(cartItem => {
             tot += cartItem.productPrice * cartItem.qty;
         })
         setTotal(tot);
@@ -17,7 +20,7 @@ function CheckOut(props) {
 
     useEffect(() => {
         loadTotal();
-    }, [props.cartItems])
+    }, [checkOutContext.cartItems])
   
     const validatePayment = () => {
         //where to validate payments logic
@@ -26,9 +29,9 @@ function CheckOut(props) {
 
     const placeOrder = async () => {
         //get cartItems and favItems from localStorage
-        const cartItems = props.cartItems;
-        const favItems = props.favs;
-        const userId = props.loggedInUserID;
+        const cartItems = checkOutContext.cartItems;
+        const favItems = checkOutContext.favs;
+        const userId = checkOutContext.loggedInUserID;
         /*validate payments then add favs and cartItems to
         database*/
         if (validatePayment()) {
@@ -78,7 +81,7 @@ function CheckOut(props) {
                             <th>Name</th>
                             <th>Price</th>
                         </tr>
-                        {props.cartItems.map(product => {
+                        {checkOutContext.cartItems.map(product => {
                             return <tr key={product.id} className="align-middle">
                                 <td className="text-center"><img src={product.productImage} alt="product" /></td>
                                 <td className="text-center">{product.qty}</td>

@@ -3,24 +3,26 @@ import SliderHome from "../components/SliderHome";
 import BrandLogos from "../components/BrandLogos";
 import BestSellerText from "../components/BestSellerText";
 import BestSellerProducts from "../components/BestSellerProducts";
-import { useState, useEffect } from "react";
-function Home(props) {
+import { useContext } from "react";
+import { ShopContext } from "../contexts/shopContex";
+function Home() {
+    const homeContext = useContext(ShopContext);
     return (
         <>
             <SliderHome />
             <BrandLogos />
             <BestSellerText />
             <BestSellerProducts
-                favs={props.favs}
-                addToFavs={props.addToFavs}
-                alreadyInFavs={props.alreadyInFavs}
-                removeFromFavs={props.removeFromFavs}
-                alreadyInCart={props.alreadyInCart}
-                addToCart={props.addToCart}
-                getBestSellersAll={props.getBestSellersAll}
-                bestSellers={props.bestSellers}
-                getBestSellers={props.getBestSellers}
-                categories={props.productCategories} />
+                favs={homeContext.favs}
+                addToFavs={homeContext.addToFavs}
+                alreadyInFavs={homeContext.alreadyInFavs}
+                removeFromFavs={homeContext.removeFromFavs}
+                alreadyInCart={homeContext.alreadyInCart}
+                addToCart={homeContext.addToCart}
+                getBestSellersAll={homeContext.getBestSellersAll}
+                bestSellers={homeContext.bestSellers}
+                getBestSellers={homeContext.getBestSellers}
+                categories={homeContext.productCategories} />
 
         </>
     )

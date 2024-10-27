@@ -5,8 +5,11 @@ import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { FaRegHeart } from "react-icons/fa6";
 import { FaCartPlus } from "react-icons/fa";
-function Products(props) {
+import { useContext } from "react";
+import { ShopContext } from "../contexts/shopContex";
+function Products() {
     const { category } = useParams();
+    const productContext = useContext(ShopContext);
     return (
         <div className="row" id="products">
             <div className="col-md-3">
@@ -14,8 +17,8 @@ function Products(props) {
                 <div className="card rounded-0 mb-5" >
                     <div className="card-body">
                         <ul className="list-group list-group-flush">
-                            {props.categories.map(category => {
-                                return <li key={category} className="list-group-item"><Link onClick={() => props.getProductsbyCategory(category)} to={`/products/${category}`}>{category}</Link></li>
+                            {productContext.productCategories.map(category => {
+                                return <li key={category} className="list-group-item"><Link onClick={() => productContext.getProductsbyCategory(category)} to={`/products/${category}`}>{category}</Link></li>
                             })}
                         </ul>
                     </div>
@@ -24,19 +27,19 @@ function Products(props) {
             <div className="col-md-9">
                 <h2 className="text-center">Products</h2>
                 <div className="row">
-                    {props.allProducts.map(product => {
+                    {productContext.allProducts.map(product => {
                         return <div className="col-md-3 d-flex justify-content-center" key={product.id}>
                             <div className="card rounded-0 mb-5" >
                                 <img src={product.productImage} className="card-img-top rounded-0" alt="..." />
                                 <div className="cart-icons">
                                     <a href="#" onClick={() => {
-                                        props.alreadyInCart(product) ? document.getElementById(product.id).textContent = "In cart" : props.addToCart(product);
+                                        productContext.alreadyInCart(product) ? document.getElementById(product.id).textContent = "In cart" : productContext.addToCart(product);
                                     }
                                     } className="p-2 m-1">
                                         <FaCartPlus />
                                     </a>
 
-                                    <a href="#" onClick={() =>{ props.alreadyInFavs(product) ? document.getElementById(product.id).textContent = "In wishlist" : props.addToFavs(product)}} className="p-2 m-1">
+                                    <a href="#" onClick={() =>{ productContext.alreadyInFavs(product) ? document.getElementById(product.id).textContent = "In wishlist" : productContext.addToFavs(product)}} className="p-2 m-1">
                                         <FaRegHeart />
                                     </a>
                                     

@@ -15,6 +15,7 @@ import { collection, getDocs } from "firebase/firestore";
 import Products from "./pages/Products";
 import Wishlist from "./pages/Wishlist";
 import CheckOut from "./pages/CheckOut";
+import { ShopContext } from "./contexts/shopContex";
 
 function App() {
   const [userDatainDB, setUserDataInDB] = useState([]);
@@ -236,97 +237,58 @@ function App() {
   const resetLoggedIn = () => {
     setIsLoggedIn(false);
   }
- 
+
   return (
     <div className="container-fluid">
       <BrowserRouter>
-        {isLoggedin && < UserNav
-          currentUser={currentUser}
-          loggedInUserID={loggedInUserID}
-          userDatainDB={userDatainDB}
-          resetLoggedIn={resetLoggedIn} />}
-        <Nav
-          favs={favs}
-          isLoggedIn={isLoggedin}
-          addToFavs={addToFavs}
-          alreadyInFavs={alreadyInFavs}
-          removeFromFavs={removeFromFavs}
-          deleteFromCart={deleteFromCart}
-          getProducts={getProducts}
-          cartItems={cartItems}
-          updateQty={updateQty}
-          resetLoggedIn={resetLoggedIn} />
-        <Routes>
-          <Route path="/"
-            element={<Home getBestSellersAll={getBestSellersAll}
-              favs={favs}
-              cartItems={cartItems}
-              addToFavs={addToFavs}
-              alreadyInFavs={alreadyInFavs}
-              removeFromFavs={removeFromFavs}
-              alreadyInCart={alreadyInCart}
-              addToCart={addToCart}
-              bestSellers={bestSellers}
-              getBestSellers={getBestSellers}
-              getProductsbyCategory={getProductsbyCategory}
-              productCategories={productCategories}
-              isLoggedIn={isLoggedin} />} />
-          <Route path="/wishlist" element={<Wishlist
-            favs={favs}
-            removeFromFavs={removeFromFavs}
-            alreadyInFavs={alreadyInFavs}
-          />} />
-          <Route path="/:category"
-            element={<Home getBestSellersAll={getBestSellersAll}
-              favs={favs}
-              isLoggedIn={isLoggedin}
-              addToFavs={addToFavs}
-              alreadyInFavs={alreadyInFavs}
-              removeFromFavs={removeFromFavs}
-              alreadyInCart={alreadyInCart}
-              addToCart={addToCart}
-              bestSellers={bestSellers}
-              getBestSellers={getBestSellers}
-              getProductsbyCategory={getProductsbyCategory}
-              productCategories={productCategories} />} />
-          {/* <Route path="*" element={<NoPage />} /> */}
-          <Route path="/sign-up"
-            element={<SignUp />} />
-          <Route path="/log-in"
-            element={<Login />} />
-          <Route path="/add-product"
-            element={<AddProduct />} />
-          <Route path="/products"
-            element={<Products
-              favs={favs}
-              addToFavs={addToFavs}
-              alreadyInFavs={alreadyInFavs}
-              removeFromFavs={removeFromFavs}
-              alreadyInCart={alreadyInCart}
-              getProductsbyCategory={getProductsbyCategory}
-              addToCart={addToCart}
-              categories={productCategories}
-              allProducts={allProducts} />} />
-          <Route path="/products/:category"
-            element={<Products
-              favs={favs}
-              addToFavs={addToFavs}
-              alreadyInFavs={alreadyInFavs}
-              removeFromFavs={removeFromFavs}
-              alreadyInCart={alreadyInCart}
-              getProductsbyCategory={getProductsbyCategory}
-              addToCart={addToCart}
-              categories={productCategories}
-              allProducts={allProducts} />} />
-          <Route path="/checkout"
-            element={<CheckOut
-              loggedInUserID={loggedInUserID}
-              cartItems={cartItems}
-              favs={favs}
-              />} />
-
-        </Routes>
-        <Footer />
+        <ShopContext.Provider value={{
+          isLoggedin,
+          loggedInUserID,
+          setLoggedInUserID,
+          setIsLoggedIn,
+          currentUser,
+          setCurrentUser,
+          userDatainDB,
+          setUserDataInDB,
+          productCategories,
+          setProductCategories,
+          bestSellers,
+          setBestSellers,
+          allProducts,
+          setAllProducts,
+          cartItems,
+          setCartItems,
+          favs,
+          setFavs,
+          getProducts,
+          getProductsbyCategory,
+          getBestSellers,
+          getBestSellersAll,
+          alreadyInCart,
+          addToCart,
+          alreadyInFavs,
+          removeFromFavs,
+          deleteFromCart,
+          updateQty,
+          addToFavs,
+          resetLoggedIn,
+          getCategories
+        }}>
+          <Nav />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/wishlist" element={<Wishlist />} />
+            <Route path="/:category" element={<Home />} />
+            {/* <Route path="*" element={<NoPage />} /> */}
+            <Route path="/sign-up" element={<SignUp />} />
+            <Route path="/log-in" element={<Login />} />
+            <Route path="/add-product" element={<AddProduct />} />
+            <Route path="/products" element={<Products />} />
+            <Route path="/products/:category" element={<Products />} />
+            <Route path="/checkout" element={<CheckOut />} />
+          </Routes>
+          <Footer />
+        </ShopContext.Provider>
       </BrowserRouter>
 
     </div>
