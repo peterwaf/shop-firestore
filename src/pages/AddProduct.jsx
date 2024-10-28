@@ -4,6 +4,8 @@ import { storage } from "../firebase/config";
 import { db } from "../firebase/config";
 import { addDoc, collection } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { useContext } from "react";
+import { ShopContext } from "../contexts/shopContex";
 /* name: "Product 1",
             description: "Description of Product 1",
             price: 29.99,
@@ -27,6 +29,7 @@ function AddProduct() {
     });
     const [uploadMessage, setUploadMessage] = useState("");
     const [showHideuploadMessage, setShowHideuploadMessage] = useState(true);
+    const addProductsContext = useContext(ShopContext);
     const handleProdChange = (e) => {
         const { name, value, files } = e.target;
 
@@ -97,7 +100,9 @@ function AddProduct() {
                     createdAt: new Date(),
                     updatedAt: new Date()
                 })
+                addProductsContext.getProducts();
                 setUploadMessage("Product Added Successfully");
+
                 setTimeout(() => {
                     setShowHideuploadMessage(false);
                 }, 2000);

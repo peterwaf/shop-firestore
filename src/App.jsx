@@ -11,7 +11,7 @@ import AddProduct from "./pages/AddProduct";
 import { auth } from "./firebase/config";
 import { onAuthStateChanged } from "firebase/auth";
 import { db } from "./firebase/config";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
 import Products from "./pages/Products";
 import Wishlist from "./pages/Wishlist";
 import CheckOut from "./pages/CheckOut";
@@ -141,6 +141,7 @@ function App() {
     getCategories();
   }, [])
 
+  //  get user data from DB
 
   useEffect(() => {
     const getUserInfo = async () => {
@@ -167,7 +168,6 @@ function App() {
   /*check if product is already in cart */
 
   const alreadyInCart = (product) => {
-    /*check if product is already in cart */
     const productInCart = cartItems.find(item => item.id === product.id);
     if (productInCart) {
       return true
@@ -226,14 +226,18 @@ function App() {
     const confirm = window.confirm("Are you sure you want to delete this product?");
     if (confirm) {
       deleteDoc(productRef);
+      const updatedProducts = allProducts.filter(item => item.id !== product.id);
+      setAllProducts(updatedProducts);
     }
-    const updatedProducts = allProducts.filter(item => item.id !== product.id);
-    setAllProducts(updatedProducts);
+    else {
+      return
+    }
+
   }
 
-   /** Track logged in user **/
+  /** Track logged in user **/
 
-   useEffect(() => {
+  useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         const userId = user.uid;
@@ -253,14 +257,14 @@ function App() {
   const resetCart = () => {
     localStorage.clear();
     setCartItems([]);
-   
+
   }
   const resetWishlist = () => {
     localStorage.clear();
     setFavs([]);
   }
-  
-  
+
+
   return (
     <div className="container-fluid">
       <BrowserRouter>
