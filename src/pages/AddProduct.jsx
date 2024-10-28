@@ -42,6 +42,26 @@ function AddProduct() {
                 }
             ).catch(error => console.log(error.message))
         }
+        else if(name == "bestSeller" && value == "Yes"){
+            setProdData(prevData => {
+                return { ...prevData, bestSeller: true }
+            })
+        }
+        else if(name == "bestSeller" && value == "No"){
+            setProdData(prevData => {
+                return { ...prevData, bestSeller: false }
+            })
+        }
+        else if(name == "favourite" && value == "No"){
+            setProdData(prevData => {
+                return { ...prevData, favourite: false }
+            })
+        }
+        else if(name == "favourite" && value == "Yes"){
+            setProdData(prevData => {
+                return { ...prevData, favourite: true }
+            })
+        }
         else {
             setProdData(prevData => {
                 return { ...prevData, [name]: value }
@@ -88,6 +108,8 @@ function AddProduct() {
             }
         }
     }
+    console.log(prodData);
+
     return (
         <div className="row">
             <form onSubmit={handleProdSubmit} className="m-3 p-3 bg-light">
@@ -164,25 +186,21 @@ function AddProduct() {
                             type="file"
                             required />
                     </div>
+
+
                     <div className="mb-3">
-                        <input
-                            type="checkbox"
-                            name="bestSeller"
-                            className="form-check-input"
-                            id="bestSeller"
-                            onChange={handleProdChange}
-                            checked={prodData.bestSeller} />
-                        <label htmlFor="bestSeller" className="form-check-label">Best Seller</label>
+                        <label htmlFor="bestSeller" className="form-label">Best Seller</label>
+                        <select name="bestSeller" id="bestSeller" className="form-select" onChange={handleProdChange}>
+                            <option value="No">No</option>
+                            <option value="Yes">Yes</option>
+                        </select>
                     </div>
                     <div className="mb-3">
-                        <input
-                            type="checkbox"
-                            name="favourite"
-                            className="form-check-input"
-                            id="favourite"
-                            onChange={handleProdChange}
-                            checked={prodData.favourite} />
-                        <label htmlFor="favourite" className="form-check-label">Favourite</label>
+                        <label htmlFor="favourite" className="form-label">Favourite</label>
+                        <select name="favourite" id="favourite" className="form-select" onChange={handleProdChange}>
+                            <option value="No">No</option>
+                            <option value="Yes">Yes</option>
+                        </select>
                     </div>
                     <div className="mb-3">
                         <p className="text-success">{showHideuploadMessage ? uploadMessage : ""}</p>

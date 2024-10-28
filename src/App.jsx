@@ -16,6 +16,7 @@ import Products from "./pages/Products";
 import Wishlist from "./pages/Wishlist";
 import CheckOut from "./pages/CheckOut";
 import { ShopContext } from "./contexts/shopContex";
+import ManageProducts from "./pages/ManageProducts";
 
 function App() {
   const [userDatainDB, setUserDataInDB] = useState([]);
@@ -217,6 +218,19 @@ function App() {
     setCartItems(updatedCartItems);
   }
 
+
+  /*delete product from DB */
+
+  const deleteProduct = (product) => {
+    const productRef = doc(db, "products", product.id);
+    const confirm = window.confirm("Are you sure you want to delete this product?");
+    if (confirm) {
+      deleteDoc(productRef);
+    }
+    const updatedProducts = allProducts.filter(item => item.id !== product.id);
+    setAllProducts(updatedProducts);
+  }
+
    /** Track logged in user **/
 
    useEffect(() => {
@@ -274,7 +288,8 @@ function App() {
           resetLoggedIn,
           getCategories,
           resetCart,
-          resetWishlist
+          resetWishlist,
+          deleteProduct
         }}>
           {isLoggedin && <UserNav />}
           <Nav />
@@ -289,6 +304,7 @@ function App() {
             <Route path="/products" element={<Products />} />
             <Route path="/products/:category" element={<Products />} />
             <Route path="/checkout" element={<CheckOut />} />
+            <Route path="/manage-products" element={<ManageProducts />} />
           </Routes>
           <Footer />
         </ShopContext.Provider>
