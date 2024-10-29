@@ -6,6 +6,7 @@ import { FaRegHeart } from "react-icons/fa6";
 import { FaCartPlus } from "react-icons/fa";
 import { useContext } from "react";
 import { ShopContext } from "../contexts/shopContex";
+import ProductDetails from "../pages/ProductDetails";
 function BestSellerProducts() {
     const { category } = useParams();
     const bestSellerContext = useContext(ShopContext);
@@ -46,7 +47,7 @@ function BestSellerProducts() {
                             </div>
                             <div className="card-body">
                                 <div className="wrap_after_thumbnail">
-                                    <h2 className="woocommerce-loop-product__title" id="name1">{product.productName}</h2>
+                                    <h2 className="product__title" id="name1"><Link to={`/product-details?title=${product.productName}&id=${product.id}`}>{product.productName}</Link></h2>
                                     <span className="pe-2 fw-bold">Ksh {product.productPrice}</span>
                                     <span>{product.productCategory}</span>
                                     <br />

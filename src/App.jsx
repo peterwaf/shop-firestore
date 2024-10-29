@@ -11,13 +11,14 @@ import AddProduct from "./pages/AddProduct";
 import { auth } from "./firebase/config";
 import { onAuthStateChanged } from "firebase/auth";
 import { db } from "./firebase/config";
-import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
+import { collection, getDocs,getDoc, doc, deleteDoc } from "firebase/firestore";
 import Products from "./pages/Products";
 import Wishlist from "./pages/Wishlist";
 import CheckOut from "./pages/CheckOut";
 import { ShopContext } from "./contexts/shopContex";
 import ManageProducts from "./pages/ManageProducts";
 import MyOrders from "./pages/MyOrders";
+import ProductDetails from "./pages/ProductDetails";
 
 function App() {
   const [userDatainDB, setUserDataInDB] = useState([]);
@@ -266,6 +267,7 @@ function App() {
   }
 
 
+
   return (
     <div className="container-fluid">
       <BrowserRouter>
@@ -294,7 +296,7 @@ function App() {
           getCategories,
           resetCart,
           resetWishlist,
-          deleteProduct
+          deleteProduct,
         }}>
           <Nav />
           {isLoggedin && <UserNav />}
@@ -311,6 +313,8 @@ function App() {
             <Route path="/checkout" element={<CheckOut />} />
             <Route path="/manage-products" element={<ManageProducts />} />
             <Route path="/my-orders" element={<MyOrders />} />
+            <Route path="/product-details" element={<ProductDetails />} />
+
           </Routes>
           <Footer />
         </ShopContext.Provider>
