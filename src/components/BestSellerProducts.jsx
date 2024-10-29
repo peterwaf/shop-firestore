@@ -17,7 +17,6 @@ function BestSellerProducts() {
     return (
         <>
             <div className="row d-flex justify-content-center">
-                <div className="col-md-9">
                     <div className="row">
                         <div className="text-center bestsellerproducts">
                             <Link className="px-2" onClick={() => bestSellerContext.getBestSellersAll()} to={`/`}>All</Link>
@@ -26,7 +25,7 @@ function BestSellerProducts() {
                             })}
                         </div>
                     </div>
-                </div>
+               
             </div>
 
             <div className="row d-flex justify-content-center bestseller-products-list row_custom_gap">

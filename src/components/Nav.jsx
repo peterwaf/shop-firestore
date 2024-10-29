@@ -31,7 +31,7 @@ function Nav() {
           </nav>
         </div>
         <div className="col-md-4 d-flex justify-content-center">
-          <img src="/images/logo.svg" />
+          <img src="./images/elegantLogo.png" className="logo" />
         </div>
           <CartIcons favs={navContext.favs} cartItems={navContext.cartItems} />
           <Cart isLoggedIn={navContext.isLoggedIn} deleteFromCart={navContext.deleteFromCart} cartItems={navContext.cartItems} updateQty={navContext.updateQty} />

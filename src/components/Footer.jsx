@@ -6,7 +6,7 @@ function Footer() {
             <footer className="row row-cols-5 py-2 my-2">
                 <div className="col">
                     <a href="/" className="d-flex align-items-center mb-3 link-dark text-decoration-none">
-                        <img src="/images/logo.svg" className="img-fluid" alt="" />
+                        <img src="./images/elegantLogo.png" className="img-fluid" alt="" />
                     </a>
                     <p className="text-muted">© {new Date().getFullYear()}</p>
                 </div>
@@ -21,7 +21,7 @@ function Footer() {
                 <div className="col">
                     <h5>ABOUT US</h5>
                     <p>
-                    Welcome to our world of beauty, where we believe that every woman deserves to feel confident and radiant in her own skin. Our passion lies in creating high-quality, effective beauty products that enhance your natural beauty and fit seamlessly into your everyday routine.</p>
+                    At Elegance Haven,we believe that every woman deserves to feel confident and radiant in her own skin. Our passion lies in creating high-quality, effective beauty products that enhance your natural beauty and fit seamlessly into your everyday routine.</p>
                 </div>
                 <div className="col">
                     <h5>Sign Up / Log In</h5>

@@ -13,7 +13,7 @@ function Products() {
     const productContext = useContext(ShopContext);
     return (
         <div className="row" id="products">
-            <div className="col-md-3">
+            <div className="col-md-3" id="categories">
                 <h2 className="text-center">Categories</h2>
                 <div className="card rounded-0 mb-5" >
                     <div className="card-body">

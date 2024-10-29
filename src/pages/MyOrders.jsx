@@ -51,9 +51,9 @@ function MyOrders() {
                                 <tr key={index}>
                                     <td>{order.id}</td>
                                     <td>{convertTimestampToDate(order.orderDate)}</td>
-                                    <td>{order.cartItems.map(item => <a href={`/products/title?title=${item.productName}&id=${item.id}`}><span className="badge rounded-pill bg-secondary mx-1">{item.productName}</span></a>)}</td>  
+                                    <td>{order.cartItems.map(item => <a href={`/product-details?title=${item.productName}&id=${item.id}`}><span className="badge rounded-pill bg-secondary mx-1">{item.productName}</span></a>)}</td>  
                                     <td>{order.status}</td>
-                                    <td>Ksh:{order.total}</td>
+                                    <td>Ksh.{order.total}</td>
                                 </tr>
                             ))}
                         </tbody>

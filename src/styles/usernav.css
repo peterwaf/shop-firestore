@@ -1,12 +1,33 @@
 #userNav{
     list-style: none;
     margin: 0;
-   
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background-color: #07897ca6;
+    padding: 10px;
+    border-radius: 5px;
+    color:#fff;
 }
 
 #userNav li{
     margin: 0 5px;
+}
+
+#userNav li a{
+    text-decoration: none;
+    color: black;
+}
+
+#myOrders li{
+    display: inline-block;
+    margin: 0 5px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: red;
+}
+
+#myOrders li a{
+    text-decoration: none;
+    color: white;
 }

@@ -25,7 +25,6 @@
   display: inline-block;
   line-height: 30px;
   background-color: transparent;
-  padding: 15px 0 3px;
   font-size: 16px;
   font-weight: 500;
   color: #707070;
@@ -110,4 +109,44 @@
 .top_icons svg{
   width:20px;
   height:20px;
+}
+.product__title a{
+  font-weight: 500;
+  font-size: 1.1em;
+  color: #3a3a3a;
+}
+.product__title a:hover{
+  color: #0ac3b2;
+}
+#categories ul{
+  box-shadow:#00000094;
+}
+
+#categories ul li a{
+  font-weight: 500;
+  font-size: 1.1em;
+  color: #3a3a3a;
+}
+#categories ul li a:hover{
+  color: #0ac3b2;
+}
+.logo{
+  width: 150px;
+  height: auto;
+  margin: 10px;
+}
+.bestsellerproducts {
+  padding:5px;
+}
+.bestsellerproducts a{
+  background-color:pink;
+  font-weight: 500;
+  font-size: 1.1em;
+  color:#000;
+  text-decoration: none;
+  margin:2px;
+}
+
+.bestsellerproducts a:hover{
+  color: #0ac3b2;
 }
