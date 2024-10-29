@@ -23,16 +23,19 @@ function UserNav() {
                     {userContext.userDatainDB.map(userDat => {
                         if (userDat.userId == userContext.loggedInUserID) {
                             return <ul key={userDat.userId} id="userNav">
-                                <li>Hi {userDat.firstName}</li>
-                                <li>{userDat.isAdmin && <Link to="/add-product" className="text-decoration-none">Add Product</Link>}</li>
-                                <li>{userDat.isAdmin && <Link to="/manage-products" className="text-decoration-none">Manage Products</Link>}</li>
+                                {userDat.firstName && <li>  Hi {userDat.firstName} </li>}
+                                {userDat.isAdmin && <li> <Link to="/add-product" className="text-decoration-none">Add Product</Link></li>}
+                                {userDat.isAdmin && <li> <Link to="/manage-products" className="text-decoration-none">Manage Products</Link></li>}
                             </ul>
                         }
                     })}
                     {/* for Google Authenticated users displayName */}
-                    {userContext.currentUser.displayName ? `Hi ${userContext.currentUser.displayName.split(" ")[0]}` : ""}
+                 
+                    {userContext.currentUser.displayName && <ul key={userContext.currentUser.uid}> <li>Hi {userContext.currentUser.displayName.split(" ")[0]}</li></ul>}
 
-
+                    <ul key={userContext.loggedInUserID} id="myOrders" className="m-0 p-0 list-unstyled">
+                        <li className="px-1"><Link to="/my-orders" className="text-decoration-none">My Orders</Link></li>
+                    </ul>
                     <button onClick={logOut} className="btn btn-secondary btn-sm">logout</button>
                 </div>
 

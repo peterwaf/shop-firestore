@@ -142,12 +142,10 @@ function ManageProducts() {
             console.log(error.message);
         }
     }
-    console.log(prodToEdit);
-
     return (
         <>
             <div className="row">
-                <div className="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+                <div className="modal fade" id="editModal" tabIndex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
                     <div className="modal-dialog">
                         <div className="modal-content">
                             <div className="modal-header">

@@ -17,6 +17,7 @@ import Wishlist from "./pages/Wishlist";
 import CheckOut from "./pages/CheckOut";
 import { ShopContext } from "./contexts/shopContex";
 import ManageProducts from "./pages/ManageProducts";
+import MyOrders from "./pages/MyOrders";
 
 function App() {
   const [userDatainDB, setUserDataInDB] = useState([]);
@@ -295,8 +296,8 @@ function App() {
           resetWishlist,
           deleteProduct
         }}>
-          {isLoggedin && <UserNav />}
           <Nav />
+          {isLoggedin && <UserNav />}
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/wishlist" element={<Wishlist />} />
@@ -309,6 +310,7 @@ function App() {
             <Route path="/products/:category" element={<Products />} />
             <Route path="/checkout" element={<CheckOut />} />
             <Route path="/manage-products" element={<ManageProducts />} />
+            <Route path="/my-orders" element={<MyOrders />} />
           </Routes>
           <Footer />
         </ShopContext.Provider>
