@@ -19,6 +19,7 @@ import { ShopContext } from "./contexts/shopContex";
 import ManageProducts from "./pages/ManageProducts";
 import MyOrders from "./pages/MyOrders";
 import ProductDetails from "./pages/ProductDetails";
+import About from "./pages/About";
 
 function App() {
   const [userDatainDB, setUserDataInDB] = useState([]);
@@ -314,6 +315,8 @@ function App() {
             <Route path="/manage-products" element={<ManageProducts />} />
             <Route path="/my-orders" element={<MyOrders />} />
             <Route path="/product-details" element={<ProductDetails />} />
+            <Route path="/about" element={<About />} />
+            
 
           </Routes>
           <Footer />
