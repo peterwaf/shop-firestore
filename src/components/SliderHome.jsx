@@ -1,17 +1,59 @@
-import React from 'react'
+import React from 'react';
+import { db } from "../firebase/config";
+import { collection, getDocs } from "firebase/firestore";
+import { useState, useEffect } from "react";
 
 function SliderHome() {
+    const [allSlides, setAllSlides] = useState([]);
+    const [leftSlides, setLeftSlides] = useState([]);
+    const [rightSlides, setRightSlides] = useState([]);
+    const loadSlider = async () => {
+        try {
+            const sliderCollection = collection(db, "homeSlider");
+            const sliderSnapshot = await getDocs(sliderCollection);
+            const slides = sliderSnapshot.docs.map(doc => { return { ...doc.data(), id: doc.id } });
+            setAllSlides(slides);
+
+        } catch (error) {
+            error.message
+        }
+    }
+
+    useEffect(() => {
+        loadSlider();
+    }, [])
+
+    useEffect(() => {
+        if (allSlides.length > 0) {
+           const left = allSlides.filter((slide) => slide.position.toLowerCase() == "left");
+           const right = allSlides.filter((slide) => slide.position.toLowerCase() == "right");
+           setLeftSlides(left);
+           setRightSlides(right);
+        }
+    }, [allSlides]);
+
     return (
         <div className="row">
             <div className="col-md-6">
                 <div id="carouselSliderHomeLeft" className="carousel slide" data-bs-ride="carousel">
                     <div className="carousel-inner">
-                        <div className="carousel-item active">
-                            <img src="/images/pexels-pixabay-415829.jpg" className="d-block w-100 home_img" alt="..." />
-                        </div>
-                        <div className="carousel-item">
-                            <img src="/images/pexels-yuri-manei-2690323.jpg" className="d-block w-100 home_img" alt="..." />
-                        </div>
+
+                        {leftSlides.map((slide,index) => {
+                            return (
+                                <div key={index} className={`carousel-item ${index == 0 ? "active" : ""}`}>
+                                    <img src={slide.image} className="d-block w-100 home_img" alt="..." style={{ height: "200px" }} />
+                                    <div className="carousel-caption d-none d-md-block bg-dark p-2 rounded opacity-75">
+                                        <h5>{slide.title}</h5>
+                                        <p>{slide.description.slice(0, 100)+"..."}</p>
+                                        <h4 className="text-decoration-line-through">Ksh. {slide.amount}</h4>
+                                        <h4> Ksh.{slide.offerAmount}</h4>
+                                        
+                                        <p><a href={slide.productLink} className="btn btn-danger">Buy</a></p>
+                                        
+                                    </div>
+                                </div>
+                            )
+                        })}
                     </div>
                     <button className="carousel-control-prev" type="button" data-bs-target="#carouselSliderHomeLeft"
                         data-bs-slide="prev">
@@ -23,36 +65,33 @@ function SliderHome() {
                         <span className="carousel-control-next-icon" aria-hidden="true"></span>
                         <span className="visually-hidden">Next</span>
                     </button>
-                   {/** we can add another **/}
+                    {/** we can add another **/}
                 </div>
-                
+
             </div>
 
             <div className="col-md-6">
                 <div id="carouselSliderHomeRight" className="carousel slide">
                     <div className="carousel-inner">
-                        <div className="carousel-item active">
-                            <div className="row">
-                                <div className="col m-0 p-0">
-                                    <img src="/images/Blush_Cover-475x578.jpg" className="d-block w-100 home_img" alt="..." />
+
+                        {rightSlides.map((slide,index) => {
+                            return (
+                                <div key={index} className={`carousel-item ${index == 0 ? "active" : ""}`}>
+                                    <img src={slide.image} className="d-block w-100 home_img" alt="..." style={{ height: "200px" }} />
+                                    <div className="carousel-caption d-none d-md-block bg-dark p-2 rounded opacity-75">
+                                        <h5>{slide.title}</h5>
+                                        <p>{slide.description.slice(0, 100)+"..."}</p>
+                                        <h4 className="text-decoration-line-through">Ksh. {slide.amount}</h4>
+                                        <h4> Ksh.{slide.offerAmount}</h4>
+                                        
+                                        <p><a href={slide.productLink} className="btn btn-danger">Buy</a></p>
+                                        
+                                    </div>
                                 </div>
-                                <div className="col m-0 p-0">
-                                    <img src="/images/cover-2-475x578.jpg" className="d-block w-100 home_img" alt="..." />
-                                </div>
-                            </div>
-                        </div>
-                        <div className="carousel-item">
-                            <div className="row">
-                                <div className="col m-0 p-0">
-                                    <img src="/images/Cover-5-475x578.jpg" className="d-block w-100 home_img" alt="..." />
-                                </div>
-                                <div className="col m-0 p-0">
-                                    <img src="/images/Cover-7-475x578.jpg" className="d-block w-100 home_img" alt="..." />
-                                </div>
-                            </div>
-                        </div>
-                      
+                            )
+                        })}
                     </div>
+
                     <button className="carousel-control-prev" type="button" data-bs-target="#carouselSliderHomeRight"
                         data-bs-slide="prev">
                         <span className="carousel-control-prev-icon" aria-hidden="true"></span>

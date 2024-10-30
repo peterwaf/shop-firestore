@@ -20,6 +20,7 @@ import ManageProducts from "./pages/ManageProducts";
 import MyOrders from "./pages/MyOrders";
 import ProductDetails from "./pages/ProductDetails";
 import About from "./pages/About";
+import ManageHomeSlider from "./pages/ManageHomeSlider";
 
 function App() {
   const [userDatainDB, setUserDataInDB] = useState([]);
@@ -78,7 +79,7 @@ function App() {
     setFavs(prevItems => [...prevItems, currentProduct]);
   }
 
-  /**removeFromFavs **/
+  /**remove From Favs **/
   const removeFromFavs = (product) => {
     setFavs(prevItems => prevItems.filter(item => item.id !== product.id));
   }
@@ -316,8 +317,7 @@ function App() {
             <Route path="/my-orders" element={<MyOrders />} />
             <Route path="/product-details" element={<ProductDetails />} />
             <Route path="/about" element={<About />} />
-            
-
+            <Route path="/manage-home-slider" element={<ManageHomeSlider />} />
           </Routes>
           <Footer />
         </ShopContext.Provider>

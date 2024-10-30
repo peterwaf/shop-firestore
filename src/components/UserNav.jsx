@@ -5,6 +5,7 @@ import "../styles/usernav.css";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { ShopContext } from "../contexts/shopContex";
+import ManageHomeSlider from "../pages/ManageHomeSlider";
 function UserNav() {
     const userContext = useContext(ShopContext);
     const logOut = async () => {
@@ -26,6 +27,7 @@ function UserNav() {
                                 {userDat.firstName && <li>  Hi {userDat.firstName} </li>}
                                 {userDat.isAdmin && <li> <Link to="/add-product" className="text-decoration-none">Add Product</Link></li>}
                                 {userDat.isAdmin && <li> <Link to="/manage-products" className="text-decoration-none">Manage Products</Link></li>}
+                                {userDat.isAdmin && <li> <Link to="/manage-home-slider" className="text-decoration-none">Manage Home Slider</Link></li>}
                             </ul>
                         }
                     })}
