@@ -1,44 +1,15 @@
 import React from 'react';
-import { db } from "../firebase/config";
-import { collection, getDocs } from "firebase/firestore";
-import { useState, useEffect } from "react";
-
+import { useContext } from "react";
+import { ShopContext } from "../contexts/shopContex";
 function SliderHome() {
-    const [allSlides, setAllSlides] = useState([]);
-    const [leftSlides, setLeftSlides] = useState([]);
-    const [rightSlides, setRightSlides] = useState([]);
-    const loadSlider = async () => {
-        try {
-            const sliderCollection = collection(db, "homeSlider");
-            const sliderSnapshot = await getDocs(sliderCollection);
-            const slides = sliderSnapshot.docs.map(doc => { return { ...doc.data(), id: doc.id } });
-            setAllSlides(slides);
-
-        } catch (error) {
-            error.message
-        }
-    }
-
-    useEffect(() => {
-        loadSlider();
-    }, [])
-
-    useEffect(() => {
-        if (allSlides.length > 0) {
-           const left = allSlides.filter((slide) => slide.position.toLowerCase() == "left");
-           const right = allSlides.filter((slide) => slide.position.toLowerCase() == "right");
-           setLeftSlides(left);
-           setRightSlides(right);
-        }
-    }, [allSlides]);
-
+    const sliderContext = useContext(ShopContext);
     return (
         <div className="row">
             <div className="col-md-6">
                 <div id="carouselSliderHomeLeft" className="carousel slide" data-bs-ride="carousel">
                     <div className="carousel-inner">
 
-                        {leftSlides.map((slide,index) => {
+                        {sliderContext.leftSlides.map((slide,index) => {
                             return (
                                 <div key={index} className={`carousel-item ${index == 0 ? "active" : ""}`}>
                                     <img src={slide.image} className="d-block w-100 home_img" alt="..." style={{ height: "200px" }} />
@@ -71,10 +42,10 @@ function SliderHome() {
             </div>
 
             <div className="col-md-6">
-                <div id="carouselSliderHomeRight" className="carousel slide">
+                <div id="carouselSliderHomeRight" data-bs-ride="carousel" className="carousel slide">
                     <div className="carousel-inner">
 
-                        {rightSlides.map((slide,index) => {
+                        {sliderContext.rightSlides.map((slide,index) => {
                             return (
                                 <div key={index} className={`carousel-item ${index == 0 ? "active" : ""}`}>
                                     <img src={slide.image} className="d-block w-100 home_img" alt="..." style={{ height: "200px" }} />

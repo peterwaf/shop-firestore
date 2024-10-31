@@ -11,7 +11,7 @@ import AddProduct from "./pages/AddProduct";
 import { auth } from "./firebase/config";
 import { onAuthStateChanged } from "firebase/auth";
 import { db } from "./firebase/config";
-import { collection, getDocs,getDoc, doc, deleteDoc } from "firebase/firestore";
+import { collection, getDocs, getDoc, doc, deleteDoc } from "firebase/firestore";
 import Products from "./pages/Products";
 import Wishlist from "./pages/Wishlist";
 import CheckOut from "./pages/CheckOut";
@@ -32,6 +32,10 @@ function App() {
   const [allProducts, setAllProducts] = useState([]);
   const [cartItems, setCartItems] = useState(localStorage.getItem("cartItems") ? JSON.parse(localStorage.getItem("cartItems")) : []);
   const [favs, setFavs] = useState(localStorage.getItem("favs") ? JSON.parse(localStorage.getItem("favs")) : []);
+  const [allSlides, setAllSlides] = useState([]);
+  const [leftSlides, setLeftSlides] = useState([]);
+  const [rightSlides, setRightSlides] = useState([]);
+
 
   /** Get Products **/
   const getProducts = async () => {
@@ -268,7 +272,50 @@ function App() {
     setFavs([]);
   }
 
+  /**load all slides */
 
+  const loadSlider = async () => {
+    try {
+      const sliderCollection = collection(db, "homeSlider");
+      const sliderSnapshot = await getDocs(sliderCollection);
+      const slides = sliderSnapshot.docs.map(doc => { return { ...doc.data(), id: doc.id } });
+      setAllSlides(slides);
+
+    } catch (error) {
+      error.message
+    }
+  }
+
+  useEffect(() => {
+    loadSlider();
+  }, [])
+
+  useEffect(() => {
+    if (allSlides.length > 0) {
+      const left = allSlides.filter((slide) => slide.position.toLowerCase() == "left");
+      const right = allSlides.filter((slide) => slide.position.toLowerCase() == "right");
+      setLeftSlides(left);
+      setRightSlides(right);
+    }
+  }, [allSlides]);
+
+  const deleteSlide = async (slide) => {
+    const slideRef = doc(db, "homeSlider", slide.id);
+    const confirm = window.confirm("Are you sure you want to delete this slide?");
+    if (confirm) {
+      try {
+        await deleteDoc(slideRef);
+        const updatedSlides = allSlides.filter(item => item.id !== slide.id);
+        setAllSlides(updatedSlides);
+      } catch (error) {
+        console.log(error.message);
+
+      }
+    }
+    else {
+      return
+    }
+  }
 
   return (
     <div className="container-fluid">
@@ -299,6 +346,11 @@ function App() {
           resetCart,
           resetWishlist,
           deleteProduct,
+          allSlides,
+          leftSlides,
+          rightSlides,
+          deleteSlide,
+          loadSlider
         }}>
           <Nav />
           {isLoggedin && <UserNav />}

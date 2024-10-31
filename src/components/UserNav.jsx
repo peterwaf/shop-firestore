@@ -5,13 +5,16 @@ import "../styles/usernav.css";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { ShopContext } from "../contexts/shopContex";
-import ManageHomeSlider from "../pages/ManageHomeSlider";
+import { useNavigate } from "react-router-dom";
 function UserNav() {
     const userContext = useContext(ShopContext);
+    const navigate = useNavigate();
     const logOut = async () => {
         try {
             await signOut(auth);
             userContext.resetLoggedIn();
+            navigate("/")
+
         } catch (error) {
             console.log(error.message)
         }
@@ -27,7 +30,7 @@ function UserNav() {
                                 {userDat.firstName && <li>  Hi {userDat.firstName} </li>}
                                 {userDat.isAdmin && <li> <Link to="/add-product" className="text-decoration-none">Add Product</Link></li>}
                                 {userDat.isAdmin && <li> <Link to="/manage-products" className="text-decoration-none">Manage Products</Link></li>}
-                                {userDat.isAdmin && <li> <Link to="/manage-home-slider" className="text-decoration-none">Manage Home Slider</Link></li>}
+                                {userDat.isAdmin && <li> <Link to="/manage-home-slider" className="text-decoration-none">Slider</Link></li>}
                             </ul>
                         }
                     })}
